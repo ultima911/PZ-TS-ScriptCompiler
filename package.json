@@ -1,0 +1,42 @@
+{
+    "name": "pz-ts-scriptcompiler",
+    "version": "0.0.1",
+    "description": "A typescript tool for Project Zomboid modding, which allows users to write scripts (item/recipe/etc) in typescript, then compile them for use.",
+    "license": "MIT",
+    "readmeFilename": "README.md",
+    "author": {
+        "name": "Ultima911"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/ultima911/PZ-TS-ScriptCompiler.git"
+    },
+    "bugs": {
+        "url": "https://github.com/ultima911/PZ-TS-ScriptCompiler/issues"
+    },
+    "scripts": {
+        "tsc": "tsc",
+        "clean": "npx rimraf dist",
+        "build": "npm run clean && npm run tsc",
+        "compile": "npm run build && ts-node src/pz-ts-compiler/index.ts",
+        "lint": "eslint",
+        "lint:fix": "eslint --fix",
+        "prettier": "prettier --ignore-path .gitignore --write \"./src/**/*.+(js|ts|json)\"",
+        "prettier:fix": "prettier --write src"
+    },
+    "devDependencies": {
+        "@eslint/js": "^9.22.0",
+        "@types/express": "^5.0.0",
+        "@types/node": "^22.13.10",
+        "@typescript-eslint/eslint-plugin": "^8.26.1",
+        "@typescript-eslint/parser": "^8.26.1",
+        "eslint": "^9.22.0",
+        "globals": "^16.0.0",
+        "nodemon": "^3.1.9",
+        "prettier": "^3.5.3",
+        "ts-node": "^10.9.2",
+        "ts-node-dev": "^2.0.0",
+        "typescript": "^5.8.2",
+        "typescript-eslint": "^8.26.1"
+    }
+}

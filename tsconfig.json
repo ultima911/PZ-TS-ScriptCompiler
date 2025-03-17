@@ -1,0 +1,21 @@
+{
+    "compilerOptions": {
+        "rootDir": "./src",
+        "lib": ["ES5", "ES6"],
+        "target": "ES6",
+        "module": "CommonJS",
+        "moduleResolution": "node",
+        "declaration": true,
+        "strict": true,
+        "alwaysStrict": true,
+        "noImplicitAny": true,
+        "strictNullChecks": true,
+        "inlineSourceMap": true,
+        "inlineSources": true,
+        "skipLibCheck": true,
+        "forceConsistentCasingInFileNames": true,
+        "outDir": "dist",
+        "checkJs": true,
+    },
+    "exclude": ["node_modules", "eslint.config.mjs"]
+}
