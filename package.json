@@ -17,7 +17,6 @@
     "main": "./bin/app.ts",
     "files": [
         "bin/",
-        "lib/",
         "src/"
     ],
     "engines": {

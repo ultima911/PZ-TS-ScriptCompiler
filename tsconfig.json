@@ -22,5 +22,5 @@
         "allowSyntheticDefaultImports": true,
         "forceConsistentCasingInFileNames": true
     },
-    "include": ["lib", "bin", "src"]
+    "include": ["bin", "src"]
 }
