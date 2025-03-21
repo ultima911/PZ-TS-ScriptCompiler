@@ -1,21 +1,26 @@
 {
     "compilerOptions": {
-        "rootDir": "./src",
-        "lib": ["ES5", "ES6"],
-        "target": "ES6",
+        "outDir": "dist",
+        "target": "ES2020",
         "module": "CommonJS",
-        "moduleResolution": "node",
+        "lib": ["ES2020"],
+        "esModuleInterop": true,
         "declaration": true,
         "strict": true,
         "alwaysStrict": true,
         "noImplicitAny": true,
         "strictNullChecks": true,
+        "noImplicitThis": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "noImplicitReturns": true,
+        "noFallthroughCasesInSwitch": true,
         "inlineSourceMap": true,
         "inlineSources": true,
-        "skipLibCheck": true,
-        "forceConsistentCasingInFileNames": true,
-        "outDir": "dist",
-        "checkJs": true,
+        "experimentalDecorators": true,
+        "strictPropertyInitialization": true,
+        "allowSyntheticDefaultImports": true,
+        "forceConsistentCasingInFileNames": true
     },
-    "exclude": ["node_modules", "eslint.config.mjs"]
+    "include": ["lib", "bin", "src"]
 }
