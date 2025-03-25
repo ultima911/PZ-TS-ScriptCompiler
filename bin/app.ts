@@ -1,34 +1,52 @@
 import fs from 'fs';
 import { Logger } from '../lib/pz-ts-scriptcompiler/util/Logger';
 import { camelCase } from 'lodash';
+import { StringBuilder } from '../lib/pz-ts-scriptcompiler/util/StringBuilder';
+import { inspect } from 'util';
 import { AnyItem } from '../lib/pz-ts-scriptcompiler/types/items/item/Item';
 
-async function createItemsFile(items: AnyItem[]) {
+function createItemsFile(items: AnyItem[]) {
     fs.mkdirSync('./lib/base-module/', { recursive: true });
-    fs.writeFileSync('./lib/base-module/items.ts', JSON.stringify(items));
-    // TODO: Fix the async issue
+    fs.writeFileSync('./lib/base-module/items.ts', buildTSfromItems(items));
 }
 
-async function readFiles(dirname: string, onFileContent: Function, onError: Function) {
-    const items: AnyItem[] = [];
-    fs.readdir(dirname, function (err, filenames) {
-        if (err) {
-            onError(err);
-            return;
+function readFiles(dirName: string) {
+    let items: AnyItem[] = [];
+
+    const fileNames = fs.readdirSync(dirName, { encoding: 'utf-8', recursive: true });
+
+    fileNames.forEach((fileName) => {
+        const path = dirName + fileName;
+        const stat = fs.statSync(path);
+        if (stat.isFile()) {
+            const fileContents = fs.readFileSync(path, 'utf-8');
+            const fileItems = onFileContent(fileName, fileContents);
+            items = items.concat(fileItems);
         }
-        filenames.forEach(function (filename) {
-            fs.readFile(dirname + filename, 'utf-8', function (err, content) {
-                if (err) {
-                    onError(err);
-                    return;
-                }
-                const fileItems = onFileContent(filename, content);
-                Logger.log(JSON.stringify(fileItems));
-                items.concat(fileItems);
-            });
-        });
     });
+
     createItemsFile(items);
+}
+
+function buildTSfromItems(items: AnyItem[]) {
+    const baseModule: Record<string, any> = {};
+    const itemsObj: Record<string, any> = {};
+    items.forEach((item) => {
+        const genericItem = item as Record<string, unknown>;
+        const itemId = genericItem.id;
+        if (!itemId || typeof itemId !== 'string') {
+            Logger.error(`appropriate itemId not found for: ${JSON.stringify(item)}`);
+        } else {
+            delete genericItem.id;
+            itemsObj[itemId] = genericItem;
+        }
+    });
+
+    baseModule.items = itemsObj;
+
+    const sb = new StringBuilder(true);
+    sb.append(`export const Base = ${inspect(baseModule)}`);
+    return sb.out();
 }
 
 function onFileContent(fileName: string, content: string) {
@@ -76,4 +94,4 @@ function buildItemFromString(itemName: string, itemProperties: string) {
     return item;
 }
 
-readFiles(`./exampleData/items/`, onFileContent, (err: unknown) => Logger.error(String(err)));
+readFiles(`./exampleData/`);

@@ -39,9 +39,11 @@ export class StringBuilder {
 
     public openBracket() {
         this.appendLine('{');
+        this.indent();
     }
 
     public closeBracket() {
+        this.unindent();
         this.appendLine('}');
     }
 
